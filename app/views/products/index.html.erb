@@ -1,0 +1,35 @@
+<table style="width:100%">
+  <tr>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Image</th>
+    <th>Description</th>
+  </tr>
+  <% @products.each do |product| %>
+    <tr>
+      <% if product.name %>
+        <td><%= product.name %></td>
+      <% else %>
+        <td>No product name!</td>
+      <% end %>
+
+      <% if product.price %>
+        <td><%= product.price %></td>
+      <% else %>
+        <td>No product price!</td>
+      <% end %>
+
+      <% if product.image %>
+        <td><%= product.image %></td>
+      <% else %>
+        <td>No product image!</td>
+      <% end %>
+
+      <% if product.description %>
+        <td><%= product.description %></td>
+      <% else %>
+        <td>No product description!</td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
