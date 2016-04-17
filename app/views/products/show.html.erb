@@ -3,10 +3,10 @@
      alt=<%= @product.name %>
    style='height:200px;'></img>
 <p><%= @product.description %></p>
-<p></p>
-<%= link_to "Update #{@product.name} Attributes", 
-            "products/#{@product.id}/edit" %>
-<p></p>
-<%= link_to "Delete #{@product.name}", "/products/destroy/#{@product.id}" %>
-<p></p>
+<hr />
+<%= link_to "Update #{@product.name} Properties", 
+            "/products/#{@product.id}/edit" %><br />
+<%= link_to "Delete #{@product.name}",
+            "/products/#{@product.id}",
+            method: :delete %><br />
 <%= link_to 'Home', '/' %>
