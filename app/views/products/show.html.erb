@@ -1,6 +1,12 @@
-<ul>
-  <li><%= @product.name %></li>
-  <li><%= @product.price %></li>
-  <li><%= @product.image %></li>
-  <li><%= @product.description %></li>
-</ul>
+<h1><%= @product.name %> - $<%= @product.price %></h1>
+<img src=<%= @product.image %>
+     alt=<%= @product.name %>
+   style='height:200px;'></img>
+<p><%= @product.description %></p>
+<p></p>
+<%= link_to "Update #{@product.name} Attributes", 
+            "products/#{@product.id}/edit" %>
+<p></p>
+<%= link_to "Delete #{@product.name}", "/products/destroy/#{@product.id}" %>
+<p></p>
+<%= link_to 'Home', '/' %>

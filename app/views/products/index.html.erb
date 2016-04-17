@@ -1,26 +1,29 @@
-<table style="width:100%">
+<table class="table">
   <tr>
     <th>Name</th>
     <th>Price</th>
     <th>Image</th>
     <th>Description</th>
   </tr>
+
   <% @products.each do |product| %>
     <tr>
       <% if product.name %>
-        <td><%= product.name %></td>
+        <td><%= link_to product.name, "/products/#{product.id}" %></td>
       <% else %>
         <td>No product name!</td>
       <% end %>
 
       <% if product.price %>
-        <td><%= product.price %></td>
+        <td>$<%= product.price %></td>
       <% else %>
         <td>No product price!</td>
       <% end %>
 
       <% if product.image %>
-        <td><%= product.image %></td>
+        <td><img src=<%= product.image %>
+                 alt=<%= product.name %>
+               style='height:50px;'></td>
       <% else %>
         <td>No product image!</td>
       <% end %>
@@ -33,3 +36,5 @@
     </tr>
   <% end %>
 </table>
+
+<%= link_to "Add a new product", "/products/new" %>
