@@ -4,9 +4,9 @@
    style='height:200px;'></img>
 <p><%= @product.description %></p>
 <hr />
-<%= link_to "Update #{@product.name} Properties", 
+<%= link_to 'Home', '/' %><br />
+<%= link_to "Update #{@product.name}", 
             "/products/#{@product.id}/edit" %><br />
 <%= link_to "Delete #{@product.name}",
             "/products/#{@product.id}",
-            method: :delete %><br />
-<%= link_to 'Home', '/' %>
+            method: :delete %>

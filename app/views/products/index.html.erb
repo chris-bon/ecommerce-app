@@ -6,7 +6,7 @@
     <th>Description</th>
   </tr>
 
-  <% @products.each do |product| %>
+  <% Product.all.each do |product| %>
     <tr>
       <% if product.name %>
         <td><%= link_to product.name, "/products/#{product.id}" %></td>
