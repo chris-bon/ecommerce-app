@@ -1,40 +1,38 @@
-<table class="table">
-  <tr>
-    <th>Name</th>
-    <th>Price</th>
-    <th>Image</th>
-    <th>Description</th>
-  </tr>
+<h1>Products</h1>
 
+<div class='row'>
   <% Product.all.each do |product| %>
-    <tr>
-      <% if product.name %>
-        <td><%= link_to product.name, "/products/#{product.id}" %></td>
-      <% else %>
-        <td>No product name!</td>
-      <% end %>
+    <div class="col-md-3">
+      <a href="/products/<%= product.id %>">
+        <% if product.name %>
+          <p><%= product.name %></p>
+        <% else %>
+          <p>No product name!</p>
+        <% end %>
 
-      <% if product.price %>
-        <td>$<%= product.price %></td>
-      <% else %>
-        <td>No product price!</td>
-      <% end %>
+        <% if product.price %>
+          <p>$<%= product.price %></p>
+        <% else %>
+          <p>No product price!</p>
+        <% end %>
 
-      <% if product.image %>
-        <td><img src="/assets/<%= product.image %>"
-                 alt=<%= product.name %>
-               style='height:50px;'></td>
-      <% else %>
-        <td>No product image!</td>
-      <% end %>
+        <% if product.image %>
+          <p><img src=/assets/<%= product.image %>
+                  alt=<%= product.name %>
+                style='height:50px;'></p>
+        <% else %>
+          <p>No product image!</p>
+        <% end %>
 
-      <% if product.description %>
-        <td><%= product.description %></td>
-      <% else %>
-        <td>No product description!</td>
-      <% end %>
-    </tr>
+        <% if product.description %>
+          <p><%= product.description %></p>
+        <% else %>
+          <p>No product description!</p>
+        <% end %>
+      </a>
+    </div>
   <% end %>
-</table>
+</div>
+
 
 <%= link_to "Add a new product", "/products/new" %>

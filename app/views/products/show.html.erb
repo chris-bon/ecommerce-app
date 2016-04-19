@@ -1,12 +1,14 @@
-<h1><%= @product.name %> - $<%= @product.price %></h1>
+<h1><%= @product.name %> - $<%= @product.price %> - <span class=<%= @product.color_message %>><%= @product.sale_message %></span></h1>
 <img src="/assets/<%= @product.image %>"
      alt=<%= @product.name %>
    style='height:200px;'></img>
 <p><%= @product.description %></p>
+<br />
+<p>Price: <%= @product.price %></p>
+<p>Tax: <%= @product.tax %></p>
+<p>Total: <%= @product.total %></p>
 <hr />
 <%= link_to 'Home', '/' %><br />
-<%= link_to "Update #{@product.name}", 
-            "/products/#{@product.id}/edit" %><br />
-<%= link_to "Delete #{@product.name}",
-            "/products/#{@product.id}",
+<%= link_to "Update #{@product.name}", "/products/#{@product.id}/edit" %><br />
+<%= link_to "Delete #{@product.name}", "/products/#{@product.id}", 
             method: :delete %>
