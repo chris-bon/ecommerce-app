@@ -10,6 +10,7 @@ gem 'jquery-rails'
 gem 'bootstrap-sass'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
+gem 'devise'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 group :development, :test do
