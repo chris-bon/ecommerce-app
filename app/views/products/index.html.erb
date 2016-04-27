@@ -1,8 +1,11 @@
 <h1>Products</h1>
+<a href='/products?sort=price'>Sort by Ascending Price</a><br />
+<a href='/products?sort=price desc'>Sort by Descending Price</a><br /><br />
+
 
 <div class='row'>
-  <% Product.all.each do |product| %>
-    <div class="col-md-3">
+  <% @products.each do |product| %>
+    <div class='col-md-2'>
       <a href="/products/<%= product.id %>">
         <% if product.name %>
           <p><%= product.name %></p>
@@ -16,8 +19,8 @@
           <p>No product price!</p>
         <% end %>
 
-        <% if product.image %>
-          <p><img src=/assets/<%= product.image %>
+        <% if product.images %>
+          <p><img src=<%= product.images.first.url %>
                   alt=<%= product.name %>
                 style='height:50px;'></p>
         <% else %>

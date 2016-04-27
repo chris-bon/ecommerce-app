@@ -1,7 +1,13 @@
 class ProductsController < ApplicationController
+  def index
+    @products = params[:sort] ? Product.order(params[:sort]) : Product.all
+  end
+
   def create
     Product.new(name: params[:name],  price: params[:price],
-               image: params[:image], description: params[:description]).save
+               image: params[:image], description: params[:description],
+               supplier_id: params[:supplier][:supplier_id]).save
+
     redirect_to "/products/#{product.id}"
     flash[:success] = 'New product created!'
   end
@@ -9,8 +15,6 @@ class ProductsController < ApplicationController
   def show
     @product = Product.find_by id: params[:id]
   end
-
-
 
   def edit
     @product = Product.find_by id: params[:id]
