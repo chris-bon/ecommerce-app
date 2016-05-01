@@ -12,7 +12,7 @@
   <!-- Wrapper for slides -->
   <div class='carousel-inner' role='listbox'>
     <div class='item active'>
-      <img src=<%= @product.images[0].url %> alt=<%= @product.images[0].name %>>
+      <img src=<%= @product.images[0].url %>>
       <div class='carousel-caption'><%= @product.description %></div>
     </div>
     <% if @product.images.size > 1 %>
@@ -44,6 +44,19 @@
   <li>Total: <%= @product.total %></li>
 </ul>
 <hr />
+
+<%= form_tag '/orders', :class => 'form-inline', method: :post do %>
+  <%= label_tag :quantity %>
+  <%= text_field_tag :quantity, nil, type: 'number',
+                     class: 'small text-center form-control' %>
+  <%= hidden_field_tag :product_id, @product.id, class: "form-control"  %>
+  <%= button_tag type: 'submit', 'aria-label' => 'Buy Now',
+                 class: 'btn btn-success' do %>
+      <span class="glyphicon glyphicon-plus"></span>
+      <span class="glyphicon glyphicon-shopping-cart"></span>
+  <% end %>
+<% end %>
+
 <%= link_to "Update #{@product.name}", "/products/#{@product.id}/edit" %><br />
 <%= link_to "Delete #{@product.name}", "/products/#{@product.id}", 
             method: :delete %>
