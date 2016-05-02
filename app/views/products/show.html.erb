@@ -49,11 +49,11 @@
   <%= label_tag :quantity %>
   <%= text_field_tag :quantity, nil, type: 'number',
                      class: 'small text-center form-control' %>
-  <%= hidden_field_tag :product_id, @product.id, class: "form-control"  %>
+  <%= hidden_field_tag :product_id, @product.id, class: 'form-control' %>
   <%= button_tag type: 'submit', 'aria-label' => 'Buy Now',
                  class: 'btn btn-success' do %>
-      <span class="glyphicon glyphicon-plus"></span>
-      <span class="glyphicon glyphicon-shopping-cart"></span>
+      <span class='glyphicon glyphicon-plus'></span>
+      <span class='glyphicon glyphicon-shopping-cart'></span>
   <% end %>
 <% end %>
 

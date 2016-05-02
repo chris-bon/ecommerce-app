@@ -1,13 +1,19 @@
 class ProductsController < ApplicationController
   def index
-    @products = params[:sort] ? Product.order(params[:sort]) : Product.all
+    @products = if params[:sort]
+                  Product.order params[:sort]
+                elsif params[:category]
+                  Category.find_by(name: params[:category]).products
+                else
+                  Product.all
+                end
   end
 
   def create
-    Product.new(name: params[:name],  price: params[:price],
-               image: params[:image], description: params[:description],
-               supplier_id: params[:supplier][:supplier_id],
-               user_id: current_user.id).save
+    Product.create name: params[:name],  price: params[:price],
+                  image: params[:image], description: params[:description],
+            supplier_id: params[:supplier][:supplier_id],
+                user_id: current_user.id
     redirect_to "/products/#{product.id}"
     flash[:success] = 'New product created!'
   end

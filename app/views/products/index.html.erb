@@ -1,7 +1,19 @@
 <h1>Products</h1>
+
 <a href='/products?sort=price'>Sort by Ascending Price</a><br />
 <a href='/products?sort=price desc'>Sort by Descending Price</a><br /><br />
 
+<h4>List Products by Category</h4>
+<select onChange='window.location.href=this.value'>
+  <option>Category</option>
+  <% Category.all.each do |category| %>
+    <option value="/products?category=<%= category.name %>">
+      <%= category.name %>
+    </option>
+  <% end %>
+</select>
+
+<hr />
 
 <div class='row'>
   <% @products.each do |product| %>

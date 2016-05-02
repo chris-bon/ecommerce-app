@@ -12,6 +12,14 @@ class OrdersController < ApplicationController
   # GET /orders/1.json
   def show
     @orders = current_user.orders
+    @subtotal = 0
+         @tax = 0
+       @total = 0
+    @orders.each do |order|
+      @subtotal += order.subtotal
+           @tax += order.tax
+         @total += order.total
+    end
   end
 
   # GET /orders/new
@@ -29,9 +37,9 @@ class OrdersController < ApplicationController
     product = Product.find_by id: params[:product_id]
     quantity = params[:quantity].to_i
     subtotal = product.price * quantity
-    Order.create product_id: product.id, user_id: current_user.id,
-                 quantity: quantity, subtotal: subtotal, 
-                 tax: subtotal * 0.09, total: subtotal * 1.09
+    order = Order.create product_id: product.id, user_id: current_user.id,
+                         quantity: quantity, subtotal: subtotal, 
+                         tax: subtotal * 0.09, total: subtotal * 1.09
     flash[:sucess] = 'New order saved!'
     redirect_to "/orders/#{order.id}"
   end
@@ -40,12 +48,14 @@ class OrdersController < ApplicationController
   # PATCH/PUT /orders/1.json
   def update
     respond_to do |format|
-      if @order.update(order_params)
-        format.html { redirect_to @order, notice: 'Order was successfully updated.' }
+      if @order.update order_params
+        format.html { redirect_to @order, 
+                      notice: 'Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @order }
       else
         format.html { render :edit }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
+        format.json { render json: @order.errors, 
+                      status: :unprocessable_entity }
       end
     end
   end
