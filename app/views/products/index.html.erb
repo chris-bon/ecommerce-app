@@ -1,16 +1,5 @@
 <h1>Products</h1>
 
-<h3>List Products by Category</h3>
-<select onChange='window.location.href=this.value'>
-  <option>Select Category</option>
-  <% Category.all.each do |category| %>
-    <option value='/products?category=<%= category.name %>'>
-      <%= category.name %>
-    </option>
-  <% end %>
-</select>
-<hr />
-
 <div class='row'>
   <div class='col-md-1'></div>
   <div class='col-md-1'><%= link_to 'Product', '/products?sort=name' %></div>
@@ -25,7 +14,7 @@
     <a href='/products/<%= product.id %>'>
       <div class='col-md-1'>
         <% if product.images.first %>
-          <img src=<%= product.images.first.url %> alt=<%= product.name %>
+          <img src='<%= product.images.first.url %>' alt=<%= product.name %>
                style='height:50px;'>
         <% else %>
           No image!
@@ -37,7 +26,8 @@
     <div class='col-md-1'>
       <% if first_product = product.categories.first.name %>
         <a href='/products?category=<%= first_product %>'>
-          <%= first_product %></a>
+          <%= first_product %>
+        </a>
       <% else %>
         <%= link_to 'Uncategorized', '/products?category=nil' %>
       <% end %>
@@ -50,6 +40,8 @@
         <% end %>
       <% end %>
     </div>
-    <div class='col-md-1'><% product.price || 'Literally priceless!' %></div>
+    <div class='col-md-1'>
+      <%= number_to_currency(product.price) || 'Literally priceless!' %>
+    </div>
   </div>  
 <% end %>
