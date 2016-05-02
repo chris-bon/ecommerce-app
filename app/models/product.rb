@@ -4,7 +4,6 @@ class Product < ActiveRecord::Base
   has_many :orders
   has_many :categorized_products
   has_many :categories, through: :categorized_products
-
   validates :name, presence: true
   validates :price, presence: true
   validates :description, presence: true

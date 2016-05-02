@@ -1,7 +1,10 @@
 class ProductsController < ApplicationController
   def index
+    
     @products = if params[:sort]
                   Product.order params[:sort]
+                elsif params[:category] = nil
+                  Product.all.select { |product| product.categories.nil? }
                 elsif params[:category]
                   Category.find_by(name: params[:category]).products
                 else

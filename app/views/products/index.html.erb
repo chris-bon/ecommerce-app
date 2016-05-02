@@ -1,50 +1,55 @@
 <h1>Products</h1>
 
-<a href='/products?sort=price'>Sort by Ascending Price</a><br />
-<a href='/products?sort=price desc'>Sort by Descending Price</a><br /><br />
-
-<h4>List Products by Category</h4>
+<h3>List Products by Category</h3>
 <select onChange='window.location.href=this.value'>
-  <option>Category</option>
+  <option>Select Category</option>
   <% Category.all.each do |category| %>
-    <option value="/products?category=<%= category.name %>">
+    <option value='/products?category=<%= category.name %>'>
       <%= category.name %>
     </option>
   <% end %>
 </select>
-
 <hr />
 
 <div class='row'>
-  <% @products.each do |product| %>
-    <div class='col-md-2'>
-      <a href="/products/<%= product.id %>">
-        <% if product.name %>
-          <p><%= product.name %></p>
-        <% else %>
-          <p>No product name!</p>
-        <% end %>
-
-        <% if product.price %>
-          <p>$<%= product.price %></p>
-        <% else %>
-          <p>No product price!</p>
-        <% end %>
-
-        <% if product.images %>
-          <p><img src=<%= product.images.first.url %>
-                  alt=<%= product.name %>
-                style='height:50px;'></p>
-        <% else %>
-          <p>No product image!</p>
-        <% end %>
-
-        <% if product.description %>
-          <p><%= product.description %></p>
-        <% else %>
-          <p>No product description!</p>
-        <% end %>
-      </a>
-    </div>
-  <% end %>
+  <div class='col-md-1'></div>
+  <div class='col-md-1'><%= link_to 'Product', '/products?sort=name' %></div>
+  <div class='col-md-3'>Description</div>
+  <div class='col-md-1'>
+    <%= link_to 'Category', '/products?sort=category' %></div>
+  <div class='col-md-1'><%= link_to 'Price', '/products?sort=price' %></div>
 </div>
+
+<% @products.each do |product| %>
+  <div class='row'>
+    <a href='/products/<%= product.id %>'>
+      <div class='col-md-1'>
+        <% if product.images.first %>
+          <img src=<%= product.images.first.url %> alt=<%= product.name %>
+               style='height:50px;'>
+        <% else %>
+          No image!
+        <% end %>
+      </div>
+      <div class='col-md-1'><%= product.name || 'Unnamed product!' %></div>
+    </a>
+    <div class='col-md-3'><%= product.description || 'No description!' %></div>
+    <div class='col-md-1'>
+      <% if first_product = product.categories.first.name %>
+        <a href='/products?category=<%= first_product %>'>
+          <%= first_product %></a>
+      <% else %>
+        <%= link_to 'Uncategorized', '/products?category=nil' %>
+      <% end %>
+
+      <% if product.categories.count > 1 %>
+        <% product.categories[1..-1].each do |category| %>,
+          <a href='/products?category=<%= category.name %>'>
+            <%= category.name %>
+          </a>
+        <% end %>
+      <% end %>
+    </div>
+    <div class='col-md-1'><% product.price || 'Literally priceless!' %></div>
+  </div>  
+<% end %>
