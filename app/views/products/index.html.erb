@@ -1,47 +1,50 @@
 <h1>Products</h1>
 
-<div class='row'>
-  <div class='col-md-1'></div>
-  <div class='col-md-1'><%= link_to 'Product', '/products?sort=name' %></div>
-  <div class='col-md-3'>Description</div>
-  <div class='col-md-1'>
-    <%= link_to 'Category', '/products?sort=category' %></div>
-  <div class='col-md-1'><%= link_to 'Price', '/products?sort=price' %></div>
-</div>
-
-<% @products.each do |product| %>
-  <div class='row'>
-    <a href='/products/<%= product.id %>'>
-      <div class='col-md-1'>
-        <% if product.images.first %>
-          <img src='<%= product.images.first.url %>' alt=<%= product.name %>
-               style='height:50px;'>
-        <% else %>
-          No image!
-        <% end %>
-      </div>
-      <div class='col-md-1'><%= product.name || 'Unnamed product!' %></div>
-    </a>
-    <div class='col-md-3'><%= product.description || 'No description!' %></div>
-    <div class='col-md-1'>
-      <% if first_product = product.categories.first.name %>
-        <a href='/products?category=<%= first_product %>'>
-          <%= first_product %>
-        </a>
-      <% else %>
-        <%= link_to 'Uncategorized', '/products?category=nil' %>
-      <% end %>
-
-      <% if product.categories.count > 1 %>
-        <% product.categories[1..-1].each do |category| %>,
-          <a href='/products?category=<%= category.name %>'>
-            <%= category.name %>
+<table class="table table-hover">
+  <tr>
+    <th></th>
+    <th><%= link_to 'Product', '/products?sort=name' %></th>
+    <th>Description</th>
+    <th><%= link_to 'Category', '/products?sort=category' %></th>
+    <th><%= link_to 'Price', '/products?sort=price' %></th>
+  </tr>
+  <% @products.each do |product| %>
+    <tr>
+      <a href='/products/<%= product.id %>'>
+        <td>
+          <% if product.images.first %>
+            <img src='<%= product.images.first.url %>'
+                 alt=<%= product.name %>
+                 style='height:50px;'>
+          <% else %>
+            No image!
+          <% end %>
+        </td>
+        <td><%= product.name || 'Unnamed product!' %></td>
+      </a>
+      <td><%= product.description || 'No description!' %></td>
+      <td>
+        <% if first_product = product.categories.first.name %>
+          <a href='/products?category=<%= first_product %>'>
+            <%= first_product %>
           </a>
+        <% else %>
+          <%= link_to 'Uncategorized', '/products?category=nil' %>
         <% end %>
-      <% end %>
-    </div>
-    <div class='col-md-1'>
-      <%= number_to_currency(product.price) || 'Literally priceless!' %>
-    </div>
-  </div>  
-<% end %>
+
+        <% if product.categories.count > 1 %>
+          <% product.categories[1..-1].each do |category| %>,
+            <a href='/products?category=<%= category.name %>'>
+              <%= category.name %>
+            </a>
+          <% end %>
+        <% end %>
+      </td>
+      <td>
+        <%= number_to_currency(product.price) || 'Literally priceless!' %>
+      </td>
+    </tr>  
+  <% end %>
+</table>
+
+
