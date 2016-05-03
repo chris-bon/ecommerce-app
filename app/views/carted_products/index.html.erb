@@ -1,0 +1,36 @@
+<h1>Shopping Cart</h1>
+
+<table class="table table-hover">
+  <tr>
+    <th></th>
+    <th>Product</th>
+    <th>Description</th>
+    <th>Category</th>
+    <th>Price</th>
+  </tr>
+  <% @carted_products.each do |cp| %>
+    <tr>
+      <td>
+        <% if image = Product.all.find_by(id: order.product_id).images.first %>
+          <img src='<%= image.url %>'
+               alt=''
+               style='height:50px;'>
+        <% else %>
+          No image!
+        <% end %>
+      </td>
+      <td><%= Product.all.find_by(id: order.product_id).name %></td>
+      <td><%= Product.all.find_by(id: order.product_id).description %></td>
+      <td>
+        <!--% if category = Product.all.find_by(id: order.product_id).category %>
+          <%= category %>
+        <% else %>
+          No category!
+        <% end %-->
+      </td>
+      <td><%= Product.all.find_by(id: order.product_id).price %></td>
+    </tr>  
+  <% end %>
+</table>
+
+
