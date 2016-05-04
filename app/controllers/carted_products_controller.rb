@@ -18,9 +18,9 @@ class CartedProductsController < ApplicationController
     redirect_to '/carted_products'
   end
 
+  # DELETE /orders/1
   def destroy
     CartedProduct.find_by(id: params[:id]).destroy
-    
     redirect_to '/carted_products'
   end
 end

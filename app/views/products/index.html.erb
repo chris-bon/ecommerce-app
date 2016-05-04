@@ -20,7 +20,7 @@
                alt=<%= product.name %>
                style='height:50px;'>
         <% else %>
-          No image!
+          <%= link_to 'Uncategorized', '/products?category=nil' %>
         <% end %>
       </a></td>
 

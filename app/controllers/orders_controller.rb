@@ -9,20 +9,25 @@ class OrdersController < ApplicationController
 
   # GET /orders/1
   def show
-    @orders = current_user.orders
-    @subtotal = 0
-    @tax = 0
-    @total = 0
-    @orders.each do |order|
-    @subtotal += order.subtotal
-    @tax += order.tax
-    @total += order.total
-    end
+    @order = current_user.orders.find_by id: params[:id]
   end
 
   # GET /orders/new
   def new
     @order = Order.new
+  end
+
+  # POST /orders
+  def create
+    product = Product.find_by id: params[:product_id]
+    quantity = params[:quantity].to_i
+    total_tax = product.tax * quantity
+    subtotal = product.price * quantity
+    total = total_tax + subtotal
+    Order.create product_id: product.id, user_id: current_user.id, 
+                 tax: total_tax, subtotal: subtotal, total: total,
+                 quantity: quantity
+    redirect_to "/orders/#{order.id}"
   end
 
   # GET /orders/1/edit
@@ -35,32 +40,16 @@ class OrdersController < ApplicationController
     total_subtotal = 0
     total_tax = 0
     order.carted_products.each do |carted_product|
-      total_subtotal += carted_product.quantity * carted_product.product.subtotal
-      total_tax += carted_product.quantity * carted_product.product.tax
+      quantity = carted_product.quantity
+      total_subtotal += quantity * carted_product.product.subtotal
+      total_tax += quantity * carted_product.product.tax
     end
     order.update completed: true, subtotal: total_subtotal, tax: total_tax,
                  total: total_subtotal + total_tax
-    # respond_to do |format|
-    #   if @order.update order_params
-    #     format.html { redirect_to @order, 
-    #                   notice: 'Order was successfully updated.' }
-    #     format.json { render :show, status: :ok, location: @order }
-    #   else
-    #     format.html { render :edit }
-    #     format.json { render json: @order.errors, 
-    #                   status: :unprocessable_entity }
-    #   end
-    # end
   end
 
   # DELETE /orders/1
   def destroy
-    # @order.destroy
-    # respond_to do |format|
-    #   format.html { redirect_to orders_url, 
-    #                 notice: 'Order destroyed.' }
-    #   format.json { head :no_content }
-    # end
     Order.find_by(id: params[:id]).destroy
     redirect_to '/'
     flash[:danger] = 'Order deleted!'

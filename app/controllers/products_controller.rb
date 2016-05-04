@@ -1,4 +1,6 @@
 class ProductsController < ApplicationController
+  before_action :authenticate_admin!, except: [:index, :show, :search]
+
   # GET /products
   def index
     @products = if params[:sort]
@@ -14,23 +16,22 @@ class ProductsController < ApplicationController
 
   # GET /products/:id
   def show
-    @product = Product.find_by id: params[:id]
+    @product = if params[:id] == 'random'
+                 Product.all.sample
+               else
+                 Product.find_by id: params[:id]
+               end
   end
-
-  def new
-    redirect_to '/' unless current_user && current_user.admin
 
   # POST /products
   def create
-    Product.create name: params[:name],  price: params[:price],
-                  image: params[:image], description: params[:description],
-            supplier_id: params[:supplier][:supplier_id],
-                user_id: current_user.id
+    Product.create name: params[:name], price: params[:price],
+                   image: params[:image], description: params[:description], 
+                   supplier_id: params[:supplier][:supplier_id],
+                   user_id: current_user.id
     redirect_to "/products/#{product.id}"
     flash[:success] = 'New product created!'
   end
-
-
 
   def edit
     @product = Product.find_by id: params[:id]
