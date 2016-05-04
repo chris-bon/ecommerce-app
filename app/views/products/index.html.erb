@@ -2,27 +2,32 @@
 
 <table class="table table-hover">
   <tr>
-    <th></th>
     <th><%= link_to 'Product', '/products?sort=name' %></th>
+    <th></th>
     <th>Description</th>
     <th><%= link_to 'Category', '/products?sort=category' %></th>
     <th><%= link_to 'Price', '/products?sort=price' %></th>
   </tr>
   <% @products.each do |product| %>
     <tr>
-      <a href='/products/<%= product.id %>'>
-        <td>
-          <% if product.images.first %>
-            <img src='<%= product.images.first.url %>'
-                 alt=<%= product.name %>
-                 style='height:50px;'>
-          <% else %>
-            No image!
-          <% end %>
-        </td>
-        <td><%= product.name || 'Unnamed product!' %></td>
-      </a>
-      <td><%= product.description || 'No description!' %></td>
+      <td><a href='/products/<%= product.id %>'>
+        <%= product.name || 'Unnamed product!' %>
+      </a></td>
+
+      <td><a href='/products/<%= product.id %>'>
+        <% if product.images.first %>
+          <img src=<%= product.images.first.url %>
+               alt=<%= product.name %>
+               style='height:50px;'>
+        <% else %>
+          No image!
+        <% end %>
+      </a></td>
+
+      <td><a href='/products/<%= product.id %>'>
+        <%= product.description || 'No description!' %>
+      </a></td>
+
       <td>
         <% if first_product = product.categories.first.name %>
           <a href='/products?category=<%= first_product %>'>
@@ -46,5 +51,3 @@
     </tr>  
   <% end %>
 </table>
-
-

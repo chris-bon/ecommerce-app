@@ -1,31 +1,26 @@
 class CartedProductsController < ApplicationController
   # GET /orders
   def index
-    open_order = current_user.orders.find_by completed: false
-    @carted_products = open_order.carted_products
+    @order = current_user.orders.find_by completed: false
   end
 
-  # GET /orders/1
-  def show
-    
-  end
-
+  # POST /orders
   def create
-    product = Product.find_by id: params[:product_id]
-    quantity = params[:quantity].to_i
     subtotal = product.price * quantity
     tax = subtotal * 0.0875
-    if order = current_user.orders.find_by(completed: false)
-      CartedProduct.create product_id: product.id, order_id: order.id,
-                           quantity: quantity
-    else
-      order = Order.create product_id: product.id, user_id: current_user.id,
-                           subtotal: subtotal, tax: tax, total: subtotal + tax,
-                           completed: false
-      CartedProduct.create product_id: product.id, order_id: order.id,
-                           quantity: quantity
-    end
-    flash[:sucess] = 'Added <%= product.name %> to Cart!'
+    order = current_user.orders.find_by(completed: false) ||
+            Order.create(product_id: params[:product.id],
+                         user_id: current_user.id, completed: false,
+                         subtotal: subtotal, tax: tax, total: subtotal + tax)
+    CartedProduct.create product_id: params[:product_id], order_id: order.id,
+                         quantity: params[:quantity].to_i
+    flash[:sucess] = "Added #{product.name} to Cart!"
+    redirect_to '/carted_products'
+  end
+
+  def destroy
+    CartedProduct.find_by(id: params[:id]).destroy
+    
     redirect_to '/carted_products'
   end
 end

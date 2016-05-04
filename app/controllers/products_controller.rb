@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
+  # GET /products
   def index
-    
     @products = if params[:sort]
                   Product.order params[:sort]
                 elsif params[:category] = nil
@@ -12,6 +12,15 @@ class ProductsController < ApplicationController
                 end
   end
 
+  # GET /products/:id
+  def show
+    @product = Product.find_by id: params[:id]
+  end
+
+  def new
+    redirect_to '/' unless current_user && current_user.admin
+
+  # POST /products
   def create
     Product.create name: params[:name],  price: params[:price],
                   image: params[:image], description: params[:description],
@@ -21,9 +30,7 @@ class ProductsController < ApplicationController
     flash[:success] = 'New product created!'
   end
 
-  def show
-    @product = Product.find_by id: params[:id]
-  end
+
 
   def edit
     @product = Product.find_by id: params[:id]
@@ -35,11 +42,5 @@ class ProductsController < ApplicationController
                    image: params[:image], description: params[:description]
     redirect_to "/products/#{@product.id}"
     flash[:info] = 'Update successful!'
-  end
-
-  def destroy
-    Product.find_by(id: params[:id]).destroy
-    redirect_to '/'
-    flash[:danger] = 'Product deleted!'
   end
 end

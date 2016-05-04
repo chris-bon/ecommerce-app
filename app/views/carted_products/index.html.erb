@@ -1,36 +1,51 @@
 <h1>Shopping Cart</h1>
 
-<table class="table table-hover">
+<table class='table table-hover'>
   <tr>
-    <th></th>
     <th>Product</th>
+    <th></th>
     <th>Description</th>
-    <th>Category</th>
     <th>Price</th>
+    <th>Remove From Cart</th>
   </tr>
-  <% @carted_products.each do |cp| %>
+  <% @order.carted_products.each do |cp| %>
     <tr>
+      <td><%= Product.all.find_by(id: cp.product_id).name %></td>
       <td>
-        <% if image = Product.all.find_by(id: order.product_id).images.first %>
-          <img src='<%= image.url %>'
-               alt=''
-               style='height:50px;'>
+        <% if Product.all.find_by(id: cp.product_id).images.first %>
+          <img 
+            src=<%= Product.all.find_by(id: cp.product_id).images.first.url %> 
+            style='height:50px;'
+          >
         <% else %>
           No image!
         <% end %>
       </td>
-      <td><%= Product.all.find_by(id: order.product_id).name %></td>
-      <td><%= Product.all.find_by(id: order.product_id).description %></td>
+      <td><%= Product.all.find_by(id: cp.product_id).description %></td>
       <td>
-        <!--% if category = Product.all.find_by(id: order.product_id).category %>
-          <%= category %>
-        <% else %>
-          No category!
-        <% end %-->
+        <%= number_to_currency Product.all.find_by(id: cp.product_id).price %>
       </td>
-      <td><%= Product.all.find_by(id: order.product_id).price %></td>
+      <td>
+        <%= link_to 'Remove Product', '/carted_products/cp.id)', 
+                    method: :delete %>
+      </td>
     </tr>  
   <% end %>
 </table>
 
+<%= form_tag '/carted_products', :class => 'form-inline',
+             method: :post do %>
+  <%= label_tag :quantity %>
+  <%= text_field_tag :quantity, nil, type: 'number',
+                     class: 'small text-center form-control' %>
+  <%= hidden_field_tag :order_id, @order.id, class: 'form-control' %>
+  <%= button_tag type: 'submit', 'aria-label' => 'Buy Now',
+                 class: 'btn btn-success' do %>
+    <span class='glyphicon glyphicon-plus'></span>
+    <span class='glyphicon glyphicon-shopping-cart'></span>
+  <% end %>
+<% end %>
 
+<%= link_to 'Confirm and Buy', "/orders/#{@order.id}", method: :patch %>
+<%= link_to 'Delete Order', "/orders/#{@order.id}", 
+            method: :delete %>

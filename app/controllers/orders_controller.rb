@@ -31,27 +31,39 @@ class OrdersController < ApplicationController
 
   # PATCH/PUT /orders/1
   def update
-    respond_to do |format|
-      if @order.update order_params
-        format.html { redirect_to @order, 
-                      notice: 'Order was successfully updated.' }
-        format.json { render :show, status: :ok, location: @order }
-      else
-        format.html { render :edit }
-        format.json { render json: @order.errors, 
-                      status: :unprocessable_entity }
-      end
+    order = Order.find_by id: params[:id]
+    total_subtotal = 0
+    total_tax = 0
+    order.carted_products.each do |carted_product|
+      total_subtotal += carted_product.quantity * carted_product.product.subtotal
+      total_tax += carted_product.quantity * carted_product.product.tax
     end
+    order.update completed: true, subtotal: total_subtotal, tax: total_tax,
+                 total: total_subtotal + total_tax
+    # respond_to do |format|
+    #   if @order.update order_params
+    #     format.html { redirect_to @order, 
+    #                   notice: 'Order was successfully updated.' }
+    #     format.json { render :show, status: :ok, location: @order }
+    #   else
+    #     format.html { render :edit }
+    #     format.json { render json: @order.errors, 
+    #                   status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # DELETE /orders/1
   def destroy
-    @order.destroy
-    respond_to do |format|
-      format.html { redirect_to orders_url, 
-                    notice: 'Order was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    # @order.destroy
+    # respond_to do |format|
+    #   format.html { redirect_to orders_url, 
+    #                 notice: 'Order destroyed.' }
+    #   format.json { head :no_content }
+    # end
+    Order.find_by(id: params[:id]).destroy
+    redirect_to '/'
+    flash[:danger] = 'Order deleted!'
   end
 
   private

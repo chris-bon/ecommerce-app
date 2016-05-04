@@ -10,19 +10,23 @@ class Product < ActiveRecord::Base
   validates :price, presence: true
   validates :description, presence: true
 
+  DISCOUNT_THRESHOLD = 1500
+  SALES_TAX = 0.0875
+
   def sale_message
-    price < 1500 ? 'Discount Item!' : 'On Sale!'
+    price < DISCOUNT_THRESHOLD ? 'Discount Item!' : 'On Sale!'
   end
 
   def sale_color
-    price < 1500 ? 'green' : 'blue'
+    price < DISCOUNT_THRESHOLD ? 'green' : 'blue'
   end
 
   def stocked_color
+    stocked ? 'green' : 'red'
   end
 
   def tax
-    price * 0.09
+    price * SALES_TAX
   end
 
   def total

@@ -2,23 +2,24 @@ Rails.application.routes.draw do
   resources  :orders
   devise_for :users
 
-  root   'products#index'
-  get    '/products'            => 'products#index'
-  get    '/products/new'        => 'products#new'
-  post   '/products'            => 'products#create'  
-  get    '/products/:id'        => 'products#show'
-  get    '/products/:id/edit'   => 'products#edit'
-  patch  '/products/:id'        => 'products#update'
-  delete '/products/:id'        => 'products#destroy'
+  root 'products#index'
+  get  '/products'        => 'products#index'
+  get  '/products/:id'    => 'products#show'
+  get  '/products/random' => 'products#random'
+  get  '/products/new'    => 'products#new'
+  post '/products'        => 'products#create'
 
-  post   '/search'              => 'products#search'
+  post '/search' => 'products#search'
 
-  get    '/products/images/new' => 'images#new'
-  post   '/products/images'     => 'images#create'
+  get  'images/new' => 'images#new'
+  post 'images'     => 'images#create'
 
   get    '/carted_products'     => 'carted_products#index'
   post   '/carted_products'     => 'carted_products#create'
+  delete '/carted_products/:id' => 'carted_products#destroy'
 
-  get    '/orders'              => 'orders#show'
-  get    '/orders'              => 'orders#index'
+  get    '/orders/show'     => 'orders#show'
+  get    '/orders/:id/edit' => 'orders#edit'
+  patch  '/orders/:id'      => 'orders#update'
+  delete '/orders/:id'      => 'orders#destroy'
 end
