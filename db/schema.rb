@@ -11,11 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 20160504034502) do
-=======
-ActiveRecord::Schema.define(version: 20160503023522) do
->>>>>>> bb9ecb194be794d135de729d73b24124c65b96c6
+ActiveRecord::Schema.define(version: 20160505015253) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +63,7 @@ ActiveRecord::Schema.define(version: 20160503023522) do
     t.datetime "updated_at",                          null: false
     t.integer  "supplier_id"
     t.boolean  "stocked"
+    t.float    "rating"
   end
 
   create_table "suppliers", force: :cascade do |t|

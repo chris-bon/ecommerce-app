@@ -6,8 +6,8 @@ class Product < ActiveRecord::Base
   has_many :categorized_products
   has_many :categories, through: :categorized_products
 
-  validates :name, presence: true
-  validates :price, presence: true
+  validates :name, presence: true, uniqueness: true
+  validates :price, presence: true, numericality: {only_integer: true}
   validates :description, presence: true
 
   DISCOUNT_THRESHOLD = 1500

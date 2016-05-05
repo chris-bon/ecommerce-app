@@ -23,14 +23,23 @@ class ProductsController < ApplicationController
                end
   end
 
+  def new
+    redirect_to '/products' unless current_user && current_user.admin
+    @product = Product.new
+    @image = Image.new
+  end
+
   # POST /products
   def create
-    Product.create name: params[:name], price: params[:price],
-                   image: params[:image], description: params[:description], 
-                   supplier_id: params[:supplier][:supplier_id],
-                   user_id: current_user.id
-    redirect_to "/products/#{product.id}"
-    flash[:success] = 'New product created!'
+    @product = Product.new name: params[:name], price: params[:price],
+                           description: params[:description],
+                           supplier_id: params[:supplier][:supplier_id]
+    if @product.save
+      flash[:success] = 'New product created!'
+      redirect_to "/products/#{@product.id}"
+    else
+      render :new
+    end
   end
 
   def edit

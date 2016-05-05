@@ -1,4 +1,6 @@
 class CartedProductsController < ApplicationController
+  before_action :authenticate_user!
+
   # GET /orders
   def index
     @order = current_user.orders.find_by completed: false
